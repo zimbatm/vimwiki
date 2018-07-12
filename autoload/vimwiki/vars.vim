@@ -52,6 +52,7 @@ function! s:populate_global_variables()
         \ 'text_ignore_newline': 1,
         \ 'listsyms': ' .oOX',
         \ 'listsym_rejected': '-',
+        \ 'markdown_link_ext': 0,
         \ 'map_prefix': '<Leader>w',
         \ 'menu': 'Vimwiki',
         \ 'table_auto_fmt': 1,
@@ -548,9 +549,13 @@ function! s:populate_extra_markdown_vars()
   let mkd_syntax.rxWeblink1Prefix = '['
   let mkd_syntax.rxWeblink1Suffix = ')'
   let mkd_syntax.rxWeblink1Separator = ']('
+  let mkd_syntax.rxWeblink1Ext = ''
+  if vimwiki#vars#get_global('markdown_link_ext')
+    let mkd_syntax.rxWeblink1Ext = vimwiki#vars#get_wikilocal('ext')
+  endif
   " [DESCRIPTION](URL)
   let mkd_syntax.Weblink1Template = mkd_syntax.rxWeblink1Prefix . '__LinkDescription__'.
-        \ mkd_syntax.rxWeblink1Separator. '__LinkUrl__'.
+        \ mkd_syntax.rxWeblink1Separator. '__LinkUrl__'. mkd_syntax.rxWeblink1Ext .
         \ mkd_syntax.rxWeblink1Suffix
 
   let valid_chars = '[^\\]'
